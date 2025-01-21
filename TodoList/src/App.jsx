@@ -12,16 +12,28 @@ function App() {
     setTodos((prev)=>[{id:Date.now(), ...todo}, ...prev])
   }
 
+  const updateTodo = (id, todo) =>{
+    setTodos((prev)=>prev.map((prevTodo)=>(prevTodo.id===id?todo : prevTodo)))
+  }
+
+  const deleteTodo = (id) => {
+    setTodos((prev) => prev.filter((prevTodo) => prevTodo.id !== id))
+  }
+
   return (
-    <TodoProvider value={{todos,addTodo}}>
+    <TodoProvider value={{todos,addTodo, updateTodo, deleteTodo}}>
+      <div className="bg-cyan-950 min-h-screen py-8">
+        <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-black">
       <TodoForm/>
-      <div >
+      <div className='flex flex-wrap gap-3 mt-3'>
         {todos.map((todo)=>(
-          <div key={todo.id}>
+          <div key={todo.id} className='w-full'>
             <TodoItems todo={todo}/>
           </div>
         ))}
       
+      </div>
+      </div>
       </div>
       
     </TodoProvider>
